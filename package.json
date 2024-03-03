@@ -1,0 +1,25 @@
+{
+  "name": "forceworkbench",
+  "version": "1.0.0",
+  "description": "**NOTICE: WORKBENCH IS MAINTENANCE ONLY MODE. NO NEW FEATURES WILL BE ADDED AND ONLY SECURITY ISSUES WILL BE FIXED. API VERSIONS WILL CONTINUE TO BE UPDATED.**",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "start": "cd ./workbench && php -S 127.0.0.1:8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/forceworkbench/forceworkbench.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/forceworkbench/forceworkbench/issues"
+  },
+  "homepage": "https://github.com/forceworkbench/forceworkbench#readme",
+  "dependencies": {
+    "bulma": "^0.9.4"
+  }
+}

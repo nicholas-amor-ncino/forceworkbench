@@ -13,3 +13,4 @@ composer.phar
 .cache
 
 .DS_Store
+node_modules/

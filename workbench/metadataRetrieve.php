@@ -71,8 +71,8 @@ else if (isset($_POST['stageForRetrieval'])) {
     ?>
 <form id='retrieveForm' name='retrieveForm' method='POST'
     action=''><input type='hidden'
-    name='retrieveRequestId' value='<?php print $retrieveRequestId; ?>' />
-    <?php print getCsrfFormTag(); ?>
+    name='retrieveRequestId' value='<?= $retrieveRequestId; ?>' />
+    <?= getCsrfFormTag(); ?>
 <input type='submit' name='retrievalConfirmed' value='Retrieve' /></form>
     <?php
 }
@@ -87,8 +87,8 @@ to define a retrieve request along with any applicable options:</p>
     action=''
     enctype='multipart/form-data'><input type='hidden'
     name='MAX_FILE_SIZE'
-    value='<?php print WorkbenchConfig::get()->value("maxFileSize"); ?>' />
-    <?php print getCsrfFormTag(); ?>
+    value='<?= WorkbenchConfig::get()->value("maxFileSize"); ?>' />
+    <?= getCsrfFormTag(); ?>
 <table>
     <tr>
         <td style='padding-right: 20px;'>Unpackaged Manifest:</td>
@@ -96,7 +96,7 @@ to define a retrieve request along with any applicable options:</p>
             size='44' /></td>
         <td><img
             onmouseover="Tip('XML file defining types (name and members) and version to be retreived. See Salesforce.com Metadata API Developers guide for an example of a package.xml file.')"
-            align='absmiddle' src='<?php echo getPathToStaticResource('/images/help16.png'); ?>' /></td>
+            align='absmiddle' src='<?= getPathToStaticResource('/images/help16.png'); ?>' /></td>
     </tr>
     <tr>
         <td>Package Names:</td>
@@ -104,7 +104,7 @@ to define a retrieve request along with any applicable options:</p>
             size='44' /></td>
         <td><img
             onmouseover="Tip('Comma separated list of package names to be retrieved.')"
-            align='absmiddle' src='<?php echo getPathToStaticResource('/images/help16.png'); ?>' /></td>
+            align='absmiddle' src='<?= getPathToStaticResource('/images/help16.png'); ?>' /></td>
     </tr>
     <tr>
         <td>Single Package:</td>
@@ -112,7 +112,7 @@ to define a retrieve request along with any applicable options:</p>
             name='singlePackage' /></td>
         <td><img
             onmouseover="Tip('Specifies whether only a single package is being retrieved. If false, then more than one package is being retrieved.')"
-            align='absmiddle' src='<?php echo getPathToStaticResource('/images/help16.png'); ?>' /></td>
+            align='absmiddle' src='<?= getPathToStaticResource('/images/help16.png'); ?>' /></td>
     </tr>
     <tr>
         <td colspan='2'></td>

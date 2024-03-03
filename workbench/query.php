@@ -5,7 +5,7 @@ require_once 'session.php';
 require_once 'shared.php';
 require_once 'async/QueryFutureTask.php';
 
-$MIGRATION_MESSAGE = "Visual Studio Code now includes <a href=\"https://developer.salesforce.com/tools/vscode/en/soql/writing\">a SOQL Builder</a>. <a href=\"https://developer.salesforce.com/tools/vscode/en/soql/soql-builder\">Try it today!</a>";
+// $MIGRATION_MESSAGE = "Visual Studio Code now includes <a href=\"https://developer.salesforce.com/tools/vscode/en/soql/writing\">a SOQL Builder</a>. <a href=\"https://developer.salesforce.com/tools/vscode/en/soql/soql-builder\">Try it today!</a>";
 
 //clear all saved queries in cookies
 // TODO: remove after next version
@@ -16,10 +16,10 @@ if (isset($_COOKIE[$persistedSavedQueryRequestsKey])) {
 
 $defaultSettings['numFilters'] = 1;
 
-if (isset($_POST['justUpdate']) && $_POST['justUpdate'] == true) {
+if (isset($_GET['justUpdate']) && $_GET['justUpdate'] == true) {
     $queryRequest = new QueryRequest($defaultSettings);
-    $queryRequest->setObject($_POST['QB_object_sel']);
-} else if (isset($_POST['querySubmit'])) {
+    $queryRequest->setObject($_GET['QB_object_sel']);
+} else if (isset($_GET['querySubmit'])) {
     $queryRequest = new QueryRequest($_REQUEST);
 } else if(isset($_SESSION['lastQueryRequest'])) {
     $queryRequest = $_SESSION['lastQueryRequest'];
@@ -32,7 +32,7 @@ if (isset($_GET['qrjb'])) {
     if ($queryRequestJsonString = base64_decode($_REQUEST['qrjb'], true)) {
         if ($queryRequestJson = json_decode($queryRequestJsonString, true)) {
             $queryRequest = new QueryRequest($queryRequestJson);
-            $_POST['querySubmit'] = 'Query'; //simulate the user clicking 'Query' to run immediately
+            $_GET['querySubmit'] = 'Query'; //simulate the user clicking 'Query' to run immediately
         } else {
             displayErrorBeforeForm('Could not parse query request');
         }
@@ -47,14 +47,14 @@ $_SESSION['lastQueryRequest'] = $queryRequest;
 //show the query results with default object selected on a previous page, otherwise
 // just display the blank form. When the user selects the SCREEN or CSV options, the
 //query is processed by the correct function
-if (isset($_POST['queryMore']) && isset($_POST['queryLocator'])) {
+if (isset($_GET['queryMore']) && isset($_GET['queryLocator'])) {
     require_once 'header.php';
     displayQueryForm($queryRequest);
     $queryRequest->setQueryAction('QueryMore');
-    $asyncJob = new QueryFutureTask($queryRequest, $_POST['queryLocator']);
+    $asyncJob = new QueryFutureTask($queryRequest, $_GET['queryLocator']);
     echo $asyncJob->perform();
     include_once 'footer.php';
-} else if (isset($_POST['querySubmit']) && $_POST['querySubmit']=='Query' && $queryRequest->getSoqlQuery() != null && ($queryRequest->getExportTo() == 'screen' || $queryRequest->getExportTo() == 'matrix')) {
+} else if (isset($_GET['querySubmit']) && $_GET['querySubmit']=='Query' && $queryRequest->getSoqlQuery() != null && ($queryRequest->getExportTo() == 'screen' || $queryRequest->getExportTo() == 'matrix')) {
     require_once 'header.php';
     displayQueryForm($queryRequest);
     if ($queryRequest->getExportTo() == 'matrix' && ($queryRequest->getMatrixCols() == "" || $queryRequest->getMatrixRows() == "")) {
@@ -67,7 +67,7 @@ if (isset($_POST['queryMore']) && isset($_POST['queryLocator'])) {
     $asyncJob = new QueryFutureTask($queryRequest);
     echo $asyncJob->enqueueOrPerform();
     include_once 'footer.php';
-} else if (isset($_POST['querySubmit']) && $_POST['querySubmit']=='Query' && $queryRequest->getSoqlQuery() != null && strpos($queryRequest->getExportTo(), 'async_') === 0) {
+} else if (isset($_GET['querySubmit']) && $_GET['querySubmit']=='Query' && $queryRequest->getSoqlQuery() != null && strpos($queryRequest->getExportTo(), 'async_') === 0) {
     try {
         queryAsync($queryRequest);
     } catch (Exception $e) {
@@ -75,8 +75,8 @@ if (isset($_POST['queryMore']) && isset($_POST['queryLocator'])) {
         displayQueryForm($queryRequest);
         throw $e;
     }
-} else if (isset($_POST['querySubmit']) && $_POST['querySubmit']=='Query' && $queryRequest->getSoqlQuery() != null && $queryRequest->getExportTo() == 'csv') {
-    if (stripos($_POST['soql_query'], "count()") == false) {
+} else if (isset($_GET['querySubmit']) && $_GET['querySubmit']=='Query' && $queryRequest->getSoqlQuery() != null && $queryRequest->getExportTo() == 'csv') {
+    if (stripos($_GET['soql_query'], "count()") == false) {
         $task = new QueryFutureTask($queryRequest);
         $records = $task->query($queryRequest->getSoqlQuery(),$queryRequest->getQueryAction(),null,true);
         $task->exportQueryAsCsv($records,$queryRequest->getExportTo());
@@ -133,17 +133,17 @@ function displayQueryForm($queryRequest) {
     print "</script>\n";
     print "<script src='" . getPathToStaticResource('/script/query.js') . "' type='text/javascript'></script>\n";
 
-    print "<form method='POST' id='query_form' name='query_form' action='query.php'>\n";
-    print getCsrfFormTag();
+    print "<form method='GET' id='query_form' name='query_form' action='query.php'>\n";
+    // print getCsrfFormTag();
     print "<input type='hidden' name='justUpdate' value='0' />";
     print "<input type='hidden' id='numFilters' name='numFilters' value='" . count($queryRequest->getFilters()) ."' />";
     print "<p class='instructions'>Choose the object, fields, and criteria to build a SOQL query below:</p>\n";
     print "<table border='0' style='width: 100%;'>\n";
     print "<tr><td valign='top' width='1'>Object:";
 
-    printObjectSelection($queryRequest->getObject(), 'QB_object_sel', "16", "onChange='updateObject();'", "queryable");
+    printObjectSelection($queryRequest->getObject(), 'QB_object_sel', "32", "onChange='updateObject();'", "queryable");
 
-    print "<p/>Fields:<select id='QB_field_sel' name='QB_field_sel[]' multiple='mutliple' size='4' style='width: 16em;' onChange='buildQuery();'>\n";
+    print "<p/>Fields:<select id='QB_field_sel' name='QB_field_sel[]' style='width: 16em;' onChange='buildQuery();'>\n";
     if (isset($describeSObjectResult)) {
 
         print   " <option value='count()'";
@@ -233,7 +233,7 @@ function displayQueryForm($queryRequest) {
     print "<select id='QB_orderby_sort' name='QB_orderby_sort' style='width: 6em;' onChange='buildQuery();' onkeyup='buildQuery();'>\n";
     foreach ($qBOrderbySortOptions as $opKey => $op) {
         print "<option value='$opKey'";
-        if (isset($_POST['QB_orderby_sort']) && $opKey == $_POST['QB_orderby_sort']) print " selected='selected' ";
+        if (isset($_GET['QB_orderby_sort']) && $opKey == $_GET['QB_orderby_sort']) print " selected='selected' ";
         print ">$op</option>\n";
     }
     print "</select>\n";
@@ -269,11 +269,11 @@ function displayQueryForm($queryRequest) {
 
 
     print "<tr><td valign='top' colspan=5><br/>Enter or modify a SOQL query below:\n" .
-        "<br/><textarea id='soql_query_textarea' type='text' name='soql_query' rows='" . WorkbenchConfig::get()->value("textareaRows") . "' style='width: 99%; overflow: auto; font-family: monospace, courier;'>" . htmlspecialchars($queryRequest->getSoqlQuery(),ENT_QUOTES) . "</textarea>\n" .
+        "<br/><textarea id='soql_query_textarea' class='textarea' type='text' name='soql_query' rows='" . WorkbenchConfig::get()->value("textareaRows") . "' style='width: 99%; overflow: auto; font-family: monaco, monospace;'>" . htmlspecialchars($queryRequest->getSoqlQuery(),ENT_QUOTES) . "</textarea>\n" .
         "</td></tr>\n";
 
 
-    print "<tr><td colspan=1><input type='submit' name='querySubmit' class='disableWhileAsyncLoading' value='Query' onclick='return parentChildRelationshipQueryBlocker();' /></td>";
+    print "<tr><td colspan=1><input type=\"submit\" name=\"querySubmit\" class=\"button disableWhileAsyncLoading\" value=\"Query\" onclick=\"return parentChildRelationshipQueryBlocker();\" /></td>";
 
     print "<td colspan=4 align='right'>";
     print "&nbsp;&nbsp;" .

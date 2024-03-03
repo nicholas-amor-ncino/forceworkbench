@@ -97,7 +97,7 @@ function displaySearchForm($searchRequest) {
         print " limited to <input id='SB_limit' name='SB_limit' type='text'  value='" . htmlspecialchars($searchRequest->getLimit(),ENT_QUOTES) . "' size='5' onKeyUp='buildSearch();' /> maximum records</td></tr>\n";
 
         print "<tr id='sosl_search_textarea_row'><td valign='top' colspan='3'><br/>Enter or modify a SOSL search below:" .
-        "<br/><textarea id='sosl_search_textarea' type='text' name='sosl_search' cols='100' rows='" . WorkbenchConfig::get()->value("textareaRows") . "' style='overflow: auto; font-family: monospace, courier;'>". htmlspecialchars($searchRequest->getSoslSearch(),ENT_QUOTES) . "</textarea>" .
+        "<br/><textarea id='sosl_search_textarea' class='textarea' type='text' name='sosl_search' cols='100' rows='" . WorkbenchConfig::get()->value("textareaRows") . "' style='overflow: auto; font-family: 'Courier New', Courier, monospace;'>". htmlspecialchars($searchRequest->getSoslSearch(),ENT_QUOTES) . "</textarea>" .
       "</td></tr>";
 
         print "<tr><td><input type='submit' name='searchSubmit' value='Search' />";
@@ -159,7 +159,7 @@ function displaySearchResult($records, $searchTimeElapsed) {
 
             $searchResultArray = array();
             foreach ($records as $record) {
-                $recordObject = new Sobject($record->record);
+                $recordObject = new SObject($record->record);
                 $searchResultArray[$recordObject->type][] = $recordObject;
             }
 
@@ -167,11 +167,11 @@ function displaySearchResult($records, $searchTimeElapsed) {
             foreach ($searchResultArray as $recordSetName=>$records) {
                 echo "<h3>$recordSetName</h3>";
 
-                print "<table id='" . $recordSetName . "_results' class='" . getTableClass() ."'>\n";
+                print "<div class=\"table-container\"><table id='" . $recordSetName . "_results' class=\"table " . getTableClass() ."\">\n";
                 //Print the header row on screen
                 $record0 = $records[0];
                 print "<tr><th></th>";
-                //If the user queried for the Salesforce ID, this special method is nessisary
+                //If the user queried for the Salesforce ID, this special method is necessary
                 //to export it from the nested SOAP message. This will always be displayed
                 //in the first column regardless of search order
                 if (isset($record0->Id)) {
@@ -213,7 +213,7 @@ function displaySearchResult($records, $searchTimeElapsed) {
                         print "</td></tr>\n";
                     }
                 }
-                print "</table>&nbsp;<p/>";
+                print "</table></div>&nbsp;<p/>";
             }
             print    "</div>\n";
         } catch (Exception $e) {

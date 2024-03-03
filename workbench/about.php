@@ -17,7 +17,7 @@ compatibility testing with previous API versions, and single sign-on
 integration within the Salesforce application.</p>
 
 <p>
-    <strong> Workbench <?php echo $GLOBALS['WORKBENCH_VERSION']; ?></strong><br />
+    <strong> Workbench <?= $GLOBALS['WORKBENCH_VERSION']; ?></strong><br />
     Developed by Ryan Brainard<br />
     Distributed under the Open Source BSD License<br />
 </p>
@@ -53,7 +53,7 @@ below:</p>
 </p>
     
 <p>
-    Copyright (c) <?php echo date("Y"); ?>, salesforce.com, inc.<br />
+    Copyright (c) <?= date("Y"); ?>, salesforce.com, inc.<br />
     All rights reserved.
 </p>
 <p>Redistribution and use in source and binary forms, with or without

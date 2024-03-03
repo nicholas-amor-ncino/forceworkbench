@@ -23,9 +23,9 @@ require_once "header.php";
 
 <div id="loginBlockContainer">
     <form id="login_form" action="login.php" method="post">
-        <?php print getCsrfFormTag(); ?>
-        <input type="hidden" id="startUrl" name="startUrl" value="<?php print htmlspecialchars($c->getStartUrl(), ENT_QUOTES); ?>">
-        <div id="login_type_selection" style="text-align: right; <?php if ($c->isOAuthRequired()) { print "display:none;"; } ?>">
+        <?= getCsrfFormTag(); ?>
+        <input type="hidden" id="startUrl" name="startUrl" value="<?= htmlspecialchars($c->getStartUrl(), ENT_QUOTES); ?>">
+        <div id="login_type_selection" style="display:none; text-align: right; <?php if ($c->isOAuthRequired()) { print "display:none;"; } ?>">
             <input type="radio" id="loginType_std" name="loginType" value="std"/>
             <label for="loginType_std">Standard</label>
 
@@ -55,27 +55,24 @@ require_once "header.php";
         </div>
 
         <div class="loginType_std loginType_adv">
-            <p>
+            <p style="display: none;">
                 <label for="un">Username:</label>
-                <input type="text" id="un" name="un"size="55" value="<?php print htmlspecialchars($c->getUsername()); ?>"/>
+                <input type="text" id="un" name="un"size="55" value="<?= htmlspecialchars($c->getUsername()); ?>"/>
             </p>
 
-            <p>
+            <p  style="display: none;">
                 <label for="pw">Password:</label>
                 <input type="password" id="pw" name="pw" size="55"/>
             </p>
 
-            <div style="margin-left: 95px;">
+            <div style="display: none; margin-left: 95px;">
                 <input type="checkbox" id="rememberUser" name="rememberUser" <?php if ($c->isUserRemembered()) print "checked='checked'" ?> />
                 <label for="rememberUser">Remember username</label>
                 <span id="pwcaps" style="visibility: hidden; color: red; font-weight: bold; margin-left: 65px;">Caps lock is on!</span>
             </div>
-        </div>
-
-        <div class="loginType_adv">
-            <p>
+            <!-- <p>
                 <em>- OR -</em>
-            </p>
+            </p> -->
 
             <p>
                 <label for="sid">Session ID:</label>
@@ -99,6 +96,8 @@ require_once "header.php";
                     <?php printSelectOptions($c->getApiVersionSelectOptions(), $c->getApiVersion()); ?>
                 </select>
             </p>
+        </div>
+        <div class="loginType_adv">
         </div>
 
         <div class="loginType_std loginType_oauth loginType_adv">

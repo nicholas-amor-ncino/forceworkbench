@@ -99,12 +99,22 @@ if (isLoggedIn()) {
     }
 }
 
-print "<p/><form id='settings_form' method='post' action=''>\n";
-print getCsrfFormTag();
+?>
+<p />
+<form id="settings_form" method="post" action="">
+<?= getCsrfFormTag(); ?>
 
-print "<table border='0' cellspacing='5' style='border-width-top: 1'>\n";
-
-print "<tr> <td colspan='3' align='left'><input type='submit' name='submitConfigSetter' value='Apply Settings'/>&nbsp;<input type='submit' name='restoreDefaults' value='Restore Defaults'/>&nbsp;<input type='reset' value='Cancel'/></td> </tr>";
+<table border="0" cellspacing="5" style="border-width-top: 1">
+    <tr>
+        <td colspan="3" align="left">
+            <input class="button is-primary" type="submit" name="submitConfigSetter" value="Apply Settings" />
+            &nbsp;
+            <input class="button" type="submit" name="restoreDefaults" value="Restore Defaults" />
+            &nbsp;
+            <input class="button" type="reset" value="Cancel" />
+        </td>
+    </tr>
+<?php
 
 foreach (WorkbenchConfig::get()->entries() as $configKey => $configValue) {
     // don't even try to deal with complex types
@@ -149,22 +159,28 @@ foreach (WorkbenchConfig::get()->entries() as $configKey => $configValue) {
         print "\t</tr>\n";
     }
 }
-
-print "<tr> <td></td> <td></td> <td></td> </tr>\n";
-
-print "<tr> <td colspan='3' align='left'>" .
-          "<input type='submit' name='submitConfigSetter' value='Apply Settings'/>&nbsp;" . 
-          "<input type='submit' name='restoreDefaults' value='Restore Defaults'/>&nbsp;" . 
-          "<input type='reset' value='Cancel'/>" . 
-          "</td> </tr>\n";
-
-print "</table>\n";
-
-print "</form>\n";
-
-require_once 'footer.php';
-
 ?>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        <tr>
+            <td colspan='3' align='left'>
+                <input type='submit' name='submitConfigSetter' value='Apply Settings'/>
+                &nbsp;
+                <input type='submit' name='restoreDefaults' value='Restore Defaults'/>
+                &nbsp;
+                <input type='reset' value='Cancel'/>
+            </td>
+        </tr>
+    </table>
+</form>
+
+<?php require_once 'footer.php'; ?>
+
 <script>
 var isDirty = false;
 window.onbeforeunload = function() {

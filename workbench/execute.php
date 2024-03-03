@@ -25,7 +25,7 @@ if (isset($_POST['execute'])) {
 
 ?>
 <form id="executeForm" action="" method="POST">
-<?php print getCsrfFormTag(); ?>
+<?= getCsrfFormTag(); ?>
 <table border="0">
     <tr>
         <td>
@@ -46,13 +46,13 @@ if (isset($_POST['execute'])) {
         </select></td>
     </tr>
     <tr>
-        <td colspan="2"><textarea id='scriptInput' name='scriptInput'
-            cols='100'
-            rows='<?php print WorkbenchConfig::get()->value("textareaRows") ?>'
-            style='overflow: auto; font-family: monospace, courier;'><?php echo htmlspecialchars(isset($_SESSION['scriptInput'])?$_SESSION['scriptInput']:null,ENT_QUOTES); ?></textarea>
+        <td colspan="2"><textarea id="scriptInput" class="textarea" name="scriptInput"
+            cols="100"
+            rows="<?= WorkbenchConfig::get()->value("textareaRows") ?>"
+            style="overflow: auto; font-family: 'Courier New', Courier, monospace;"><?= htmlspecialchars(isset($_SESSION['scriptInput'])?$_SESSION['scriptInput']:null,ENT_QUOTES); ?></textarea>
         <p />
-        <input type='submit' name="execute" value='Execute' class='disableWhileAsyncLoading' /> <input
-            type='reset' value='Reset' class='disableWhileAsyncLoading' /></td>
+        <input type="submit" name="execute" value="Execute" class="disableWhileAsyncLoading" />
+        <input type="reset" value="Reset" class="disableWhileAsyncLoading" /></td>
     </tr>
 </table>
 </form>

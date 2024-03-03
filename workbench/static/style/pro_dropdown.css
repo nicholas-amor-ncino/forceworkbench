@@ -21,7 +21,7 @@ way to fit your requirements.
     margin: 0;
     list-style: none;
     height: 38px;
-    background: #fff url(three_0.gif) repeat-x;
+    background: rgb(72, 72, 72);
     position: relative;
     z-index: 500;
 }
@@ -44,7 +44,6 @@ way to fit your requirements.
     letter-spacing: 0.1em;
     padding: 0 0 0 12px;
     cursor: pointer;
-    background: url(three_0.gif);
 }
 
 #nav li a.top_link span {
@@ -52,7 +51,6 @@ way to fit your requirements.
     display: block;
     padding: 0 24px 0 12px;
     height: 35px;
-    background: url(three_0.gif) right top no-repeat;
 }
 
 #nav li a.top_link span.down {
@@ -60,20 +58,11 @@ way to fit your requirements.
     display: block;
     padding: 0 24px 0 12px;
     height: 35px;
-    background: url(three_0a.gif) no-repeat right top;
 }
 
 #nav li:hover a.top_link {
     color: #fff;
-    background: url(three_1.gif) no-repeat;
-}
-
-#nav li:hover a.top_link span {
-    background: url(three_1.gif) no-repeat right top;
-}
-
-#nav li:hover a.top_link span.down {
-    background: url(three_1a.gif) no-repeat right top;
+    border-bottom: 2px solid white;
 }
 
 /* Default list styling */
@@ -92,6 +81,7 @@ way to fit your requirements.
     width: 184px;
     height: auto;
     z-index: 300;
+    box-shadow: 0 2px 2px rgba(0, 0, 0, 0.2);
 }
 
 #nav li:hover ul.sub li {
@@ -106,7 +96,7 @@ way to fit your requirements.
 #nav li:hover ul.sub li a {
     font-weight: normal;
     display: block;
-    font-size: 11px;
+    font-size: 12px;
     height: 18px;
     width: 175px;
     text-align: left;

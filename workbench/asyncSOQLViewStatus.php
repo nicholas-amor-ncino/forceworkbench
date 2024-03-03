@@ -12,20 +12,20 @@ set_exception_handler('handleAllExceptionsNoHeaders');
 ?>
 <link
     rel="stylesheet" type="text/css"
-    href="<?php echo getPathToStaticResource('/style/restexplorer.css'); ?>" />
+    href="<?= getPathToStaticResource('/style/restexplorer.css'); ?>" />
 <head>
     <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/async_viewjobs.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/async_viewjobs.js'); ?>"></script>
     <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/paging.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/paging.js'); ?>"></script>
     <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
     <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
 </head>
 
 <div id='other_buttons_div'>
@@ -69,7 +69,7 @@ set_exception_handler('handleAllExceptionsNoHeaders');
                 };
                 document.getElementById("submit_jobID").setAttribute( "onClick", "javascript: showJobDetails(document.getElementById('jobID').value); return false;" );
                 
-                var data = '<?php echo $viewJobsResultInst ;?>'; 
+                var data = '<?= $viewJobsResultInst ;?>'; 
                 showGrid(data); 
                 var pager = new Paging('results', 13); 
                 pager.create(); 

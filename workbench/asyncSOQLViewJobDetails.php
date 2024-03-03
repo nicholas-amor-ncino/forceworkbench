@@ -16,10 +16,10 @@ set_exception_handler('handleAllExceptionsNoHeaders');
 
 <link
     rel="stylesheet" type="text/css"
-    href="<?php echo getPathToStaticResource('/style/restexplorer.css'); ?>" />
+    href="<?= getPathToStaticResource('/style/restexplorer.css'); ?>" />
 <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
 
 <?php
 
@@ -95,7 +95,7 @@ function printResult($viewJobsResult,$jobId) {
         print "<input type='hidden' id='disable_cancel' name='disable_cancel' value='false' />";
     }
     if ($jobIdValue != null && $statusComplete == true) {
-        print "<a id='viewResultsToggler' href='javascript:toggleTable();' style='float: right;'>Show Target Object SOQL results</a><br/><br/>";
+        print "<a id='viewResultsToggler' href='javascript:toggleTable();'>Show Target Object SOQL results</a><br/><br/>";
         generateSoql($viewJobsResultInst, $jobIdValue, $jobId);
     }
 }

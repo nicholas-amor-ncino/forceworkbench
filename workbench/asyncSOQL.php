@@ -13,19 +13,19 @@ set_exception_handler('handleAllExceptionsNoHeaders');
 <head>
   <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/jquery.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/jquery.js'); ?>"></script>
   <link
     rel="stylesheet" type="text/css"
-    href="<?php echo getPathToStaticResource('/style/jquery-ui.css'); ?>" />
+    href="<?= getPathToStaticResource('/style/jquery-ui.css'); ?>" />
   <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/jquery-ui.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/jquery-ui.js'); ?>"></script>
   <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
+    src="<?= getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
   <script
     type="text/javascript"
-    src="<?php echo getPathToStaticResource('/script/simpletreemenu.js'); ?>">
+    src="<?= getPathToStaticResource('/script/simpletreemenu.js'); ?>">
       /***********************************************
       * Dynamic Countdown script- © Dynamic Drive (http://www.dynamicdrive.com)
       * This notice MUST stay intact for legal use

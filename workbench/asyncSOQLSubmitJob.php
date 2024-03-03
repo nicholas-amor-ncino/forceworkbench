@@ -47,6 +47,12 @@ if (isset($submitJobResult)) {
         $jobResultInst = $submitJobResult->instResponse;
         $rawResponse = $submitJobResult->rawResponse;
         $jobResultInst = json_decode($jobResultInst);
+        if (isset($rawResponse)){
+            echo "<div id='codeViewPortContainer' style='display:none'>";
+            echo "<strong>Raw Response</strong>";
+            echo "<p id='codeViewPort'>".htmlspecialchars($rawResponse->header)."<br/>".htmlspecialchars($rawResponse->body)."</p>";
+            echo "</div>";
+        }
         if (isset($rawResponse) && (strpos($rawResponse->header, "400 Bad Request") > 0)) {
             $jobResultInst = $jobResultInst[0];
             print "<span style='color:Red;font-weight:bold'>ERROR</span>";
@@ -68,11 +74,5 @@ if (isset($submitJobResult)) {
             echo "</table>";
         }
         echo "<br/><a id='codeViewPortToggler' href='javascript:toggleCodeViewPort();'>Show Raw Response</a>";
-        if (isset($rawResponse)){
-            echo "<div id='codeViewPortContainer' style='display:none'>";
-            echo "<strong>Raw Response</strong>";
-            echo "<p id='codeViewPort'>".htmlspecialchars($rawResponse->header)."<br/>".htmlspecialchars($rawResponse->body)."</p>";
-            echo "</div>";
-        }
     }
 ?>

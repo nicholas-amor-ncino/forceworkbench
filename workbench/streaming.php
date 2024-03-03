@@ -16,7 +16,7 @@ require_once "header.php";
 <p class="instructions">Subscribe to a Push Topic to stream query updates:</p>
 
 <div id="messages">
-    <?php echo $c->getMessages(); ?>
+    <?= $c->getMessages(); ?>
 </div>
 
 <div id="subscriptionTypeSelectors">
@@ -31,7 +31,7 @@ require_once "header.php";
 <div id="pushTopicContainer" style="display: block;">
     <label for="selectedTopic">Push Topic:</label>&nbsp;&nbsp;
     <select id="selectedTopic">
-        <?php echo $c->getPushTopicOptions(); ?>
+        <?= $c->getPushTopicOptions(); ?>
     </select>
 
     &nbsp;
@@ -59,12 +59,12 @@ require_once "header.php";
 
                 <label for="pushTopicDmlForm_ApiVersion">API Version:</label>
                 <select id="pushTopicDmlForm_ApiVersion" name="pushTopicDmlForm_ApiVersion">
-                    <?php echo $c->getApiVersionOptions(); ?>
+                    <?= $c->getApiVersionOptions(); ?>
                 </select>
             </div>
             <div>
                 <label for="pushTopicDmlForm_Query">Query:</label>
-                <textarea id="pushTopicDmlForm_Query" name="pushTopicDmlForm_Query" cols="50" rows="3"></textarea>
+                <textarea id="pushTopicDmlForm_Query" class="textarea" name="pushTopicDmlForm_Query" cols="50" rows="3"></textarea>
             </div>
             <div id="pushTopicDmlForm_Btns">
                 <input id="pushTopicSaveBtn"
@@ -78,7 +78,7 @@ require_once "header.php";
                        value="Delete"/>
 
                 <span id="waitingIndicator">
-                    <img src="<?php echo getPathToStaticResource('/images/wait16trans.gif'); ?>"/>
+                    <img src="<?= getPathToStaticResource('/images/wait16trans.gif'); ?>"/>
                     Processing...
                 </span>
             </div>

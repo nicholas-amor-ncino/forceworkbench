@@ -1,4 +1,4 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!DOCTYPE html>
 <html>
     <head>
         <?php
@@ -26,21 +26,21 @@
         <meta http-equiv="Content-Language" content="UTF-8" />
         <meta http-equiv="Content-Type" content="text/xhtml; charset=UTF-8" />
 
-        <link rel="shortcut icon" href="<?php echo getPathToStaticResource('/images/favicon.ico'); ?>" />
+        <link rel="shortcut icon" href="<?= getPathToStaticResource('/images/favicon.ico'); ?>" />
 
-        <link rel="stylesheet" type="text/css" href="<?php echo getPathToStaticResource('/style/master.css'); ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo getPathToStaticResource('/style/pro_dropdown.css'); ?>" />
-        <link rel="stylesheet" type="text/css" href="<?php echo getPathToStaticResource('/style/simpletree.css'); ?>" />
+        <link rel="stylesheet" type="text/css" href="<?= getPathToStaticResource('/style/main.css'); ?>" />
+        <link rel="stylesheet" type="text/css" href="<?= getPathToStaticResource('/style/pro_dropdown.css'); ?>" />
+        <link rel="stylesheet" type="text/css" href="<?= getPathToStaticResource('/style/simpletree.css'); ?>" />
 
-        <?php
+        <title><?php
         $myPage = getMyPage();
-        $title = $myPage->showTitle ? ": " . $myPage->title : "";
-        print "<title>Workbench$title</title>";
-
-        print "<script type='text/javascript'>var getPathToStaticResource = " . getPathToStaticResourceAsJsFunction() . ";</script>";
-        ?>
+        print $myPage->showTitle ? $myPage->title . ": Workbench" : "Workbench";
+        ?></title>
+        <script type='text/javascript'>var getPathToStaticResource = <?php
+        print getPathToStaticResourceAsJsFunction();
+        ?>;</script>
         
-		<script type="text/javascript" src="<?php echo getPathToStaticResource('/script/pro_dropdown.js'); ?>"></script>
+		<script type="text/javascript" src="<?= getPathToStaticResource('/script/pro_dropdown.js'); ?>"></script>
     </head>
 <body>
 
@@ -112,7 +112,7 @@ if (WorkbenchConfig::get()->value("checkForLatestVersion") && extension_loaded('
             $latestChannelVersion = $latestGaVersion;
             }
 
-        if ($latestChannelVersion != $currentVersion) {
+        if ($latestChannelVersion > $currentVersion) {
             print "<div style='background-color: #EAE9E4; width: 100%; padding: 2px;'>" .
                     "<a href='https://github.com/forceworkbench/forceworkbench/tags' target='_blank' " .
                         "style='font-size: 8pt; font-weight: bold; color: #0046ad;'>" .
@@ -125,34 +125,53 @@ if (WorkbenchConfig::get()->value("checkForLatestVersion") && extension_loaded('
 }
 ?>
 
-
-<div id='mainBlock'>
-
-<div id='navMenu' style="clear: both;">
+<nav class="navbar">
+    <div class="container">
     <span class="preload1"></span>
     <span class="preload2"></span>
-    <ul id="nav">
-    <?php
-    foreach ($GLOBALS["MENUS"] as $menu => $pages) {
+    <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+            <img src="<?= getPathToStaticResource('/images/workbench-3-cubed.png') ?>" />
+        </a>
+    </div>
+    <div class="navbar-menu">
+    <?php foreach ($GLOBALS["MENUS"] as $menu => $pages):?>
+        <?php 
         if (isReadOnlyMode() && $menu == "Data") { //special-case for Data menu, since all read-only
             continue;
         }
-        $menuLabel = ($menu == "WORKBENCH") ? "&nbsp;<img src='" . getPathToStaticResource('/images/workbench-3-cubed-white-small.png') . "'/>" : strtolower($menu);
-        print "<li class='top'><a class='top_link'><span class='down'>" . $menuLabel ."</span></a>\n" .
-                  "<ul class='sub'>";
-        foreach ($pages as $href => $page) {
-            if (!$page->onNavBar || (!isLoggedIn() && $page->requiresSfdcSession) || (isLoggedIn() && $page->title == 'Login') || (!$page->isReadOnly && isReadOnlyMode())) {
-                continue;
-            }
-            print "<li><a href='$href' onmouseover=\"Tip('$page->desc')\" target=\"" . $page->window . "\">$page->title</a></li>\n";
-        }
-        print "</ul></li>";
+        ?>
+        <div class="navbar-item has-dropdown is-hoverable">
+            <a class='navbar-link'><?= $menu ?></a>
+
+            <div class='navbar-dropdown'>
+            <?php foreach ($pages as $href => $page): ?>
+                <?php
+                if (
+                    !$page->onNavBar || 
+                    (!isLoggedIn() && $page->requiresSfdcSession) ||
+                    (isLoggedIn() && $page->title == 'Login') ||
+                    (!$page->isReadOnly && isReadOnlyMode())
+                ) {
+                    continue;
+                }
+                ?>
+                <a class="navbar-item" href="<?= $href ?>" title="<?= $page->desc ?>" target="<?= $page->window ?>">
+                    <?= $page->title ?>
+                </a>
+            <?php endforeach; ?>
+            </div>
+        </div>
     
+        <?php 
         if(!isLoggedIn() || !termsOk()) break; //only show first "Workbench" menu in these cases
-    }
-    ?>
+        ?>
+    <?php endforeach; ?>
     </ul>
-</div>
+    </div>
+</nav>
+
+<div id="container" class="container">
 
 <?php
 if (!termsOk() && $myPage->requiresSfdcSession) {
@@ -168,22 +187,6 @@ if (!termsOk() && $myPage->requiresSfdcSession) {
     exit;
 }
 
-print "<table width='100%' border='0'><tr>";
-if ($myPage->showTitle) {
-    print "<td id='pageTitle'>" . $myPage->title . "</td>";
-}
-if (isLoggedIn() && termsOk()) {
-    $userInfo = WorkbenchContext::get()->getUserInfo();
-    $infoTips = array("Username: " . $userInfo->userName,
-                      "Instance: " . WorkbenchContext::get()->getHost(),
-                      "Org Id:&nbsp;&nbsp;" . substr($userInfo->organizationId, 0, 15),
-                      "User Id:&nbsp;" . substr($userInfo->userId, 0, 15));
-
-    print "<td id='myUserInfo'><a href='sessionInfo.php' onmouseover=\"Tip('". implode("<br/>", $infoTips) ."')\" >" .
-           htmlspecialchars($userInfo->userFullName . " at " . $userInfo->organizationName) . " on API " . WorkbenchContext::get()->getApiVersion() . "</a></td>";
-}
-print "</tr></table>";
-
 if (isset($GLOBALS['MIGRATION_MESSAGE'])) {
     print "<div class='migrationInfo'>\n";
     print "<p>" . $GLOBALS['MIGRATION_MESSAGE'] . "</p>";
@@ -193,6 +196,10 @@ if (isset($GLOBALS['MIGRATION_MESSAGE'])) {
 if (isset($errors)) {
     print "<p/>";
     displayError($errors, false, true);
+}
+
+if ($myPage->showTitle) {
+    print "<h1 id='pageTitle'>" . $myPage->title . "</h1>";
 }
 
 ?>

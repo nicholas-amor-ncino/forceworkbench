@@ -7,7 +7,7 @@
 //
 //////////////////////////////////////////////////////////////////////////////////////////
 
-$GLOBALS["WORKBENCH_VERSION"] = "54.0.0";
+$GLOBALS["WORKBENCH_VERSION"] = "55.0.0";
 
 class Page {
     public $title;
@@ -34,7 +34,7 @@ class Page {
 }
 
 $GLOBALS["MENUS"] = array(
-    'WORKBENCH' => array(
+    'System' => array(
         'login.php'           => new Page('Login','Logs into your Salesforce organization.',false,true,true,false,false,''),
         'select.php'          => new Page('Select','Select action to which to jump.',true,true,false,false,false,''),
         'settings.php'        => new Page('Settings','Configuration for Workbench.',false,true,true,false,true,''),
@@ -80,6 +80,7 @@ $GLOBALS["MENUS"] = array(
     ),
 
     'Utilities' => array(
+        'autospread.php'              => new Page('Autospread Utilities','Tools for Automated Spreading',true,false,true,true,true,''),
         'restExplorer.php'            => new Page('REST Explorer','Explore and discover the REST API.',true,false,true,true,true,''),
         'execute.php'                 => new Page('Apex Execute','Execute Apex code as an anonymous block.',true,false,true,true,true,''),
         'pwdMgmt.php'                 => new Page('Password Management','Set and Reset Passwords.',true,false,true,false,true,''),

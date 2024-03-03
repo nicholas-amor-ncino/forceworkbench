@@ -9,20 +9,20 @@ set_exception_handler('handleAllExceptionsNoHeaders');
 
 <link
     rel="stylesheet" type="text/css"
-    href="<?php echo getPathToStaticResource('/style/restexplorer.css'); ?>" />
+    href="<?= getPathToStaticResource('/style/restexplorer.css'); ?>" />
 <head>
     <script 
         type="text/javascript" 
-        src="<?php echo getPathToStaticResource('/script/query.js'); ?>"></script>
+        src="<?= getPathToStaticResource('/script/query.js'); ?>"></script>
     <script 
         type="text/javascript" 
-        src="<?php echo getPathToStaticResource('/script/async_submitjobs.js'); ?>"></script>
+        src="<?= getPathToStaticResource('/script/async_submitjobs.js'); ?>"></script>
     <script
         type="text/javascript"
-        src="<?php echo getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
+        src="<?= getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
     <script
         type="text/javascript"
-        src="<?php echo getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
+        src="<?= getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
 </head>
 
 <!-- hidden fields to use buildQuery() function in query.js -->
@@ -47,7 +47,7 @@ set_exception_handler('handleAllExceptionsNoHeaders');
         <tr><td>
             Source object:&nbsp;
             <?php
-            printObjectSelection(false, 'QB_object_sel', "16", "onChange='updateSourceFields();'", "queryable");
+            printObjectSelection(false, 'QB_object_sel', "32", "onChange='updateSourceFields();'", "queryable");
             ?>
         </td></tr>
         <tr><td valign='top'><br/>Source fields:&nbsp;&nbsp;
@@ -67,16 +67,16 @@ set_exception_handler('handleAllExceptionsNoHeaders');
         </td></tr>
     </table> 
 
-    <?php
-    print "<br/>Enter or modify query below:\n" .
-            "<br/><textarea id='soql_query_textarea' type='text' name='soql_query_textarea' rows='" . WorkbenchConfig::get()->value("textareaRows") . "' style='width: 99%; overflow: auto; font-family: monospace, courier;'></textarea>\n";
-    ?>
-    <input type='submit' id='querySubmit' name='querySubmit' class='disableWhileAsyncLoading' value='Next';/>
+    <br/>Enter or modify query below:
+    <br/>
+    <textarea id="soql_query_textarea" class="textarea" type="text" name="soql_query_textarea" rows="<?= WorkbenchConfig::get()->value("textareaRows") ?>" style="width: 99%; overflow: auto; font-family: 'Courier New', Courier, monospace;"></textarea>
+    
+    <button type="submit" id="querySubmit" name="querySubmit" class="button disableWhileAsyncLoading">Next</button>
 </div>
 
 <!-- Target div -->
 <div id='target_object' class='hidden'>
-    <a href='javascript:showSourceObjectsStep();' style="float: right;">Back to Source Objects</a>
+    <a href='javascript:showSourceObjectsStep();'>Back to Source Objects</a>
     <h3> <i> Query Type, Target Object and Fields: </i> </h3>
     <p class='instructions'>Choose query type, the target object and map fields and values</p>
     <table id='target_container'>
@@ -125,7 +125,7 @@ set_exception_handler('handleAllExceptionsNoHeaders');
 
 <!-- Results div -->
 <div id='results_container' class='hidden'>
-    <a href='javascript:clearSourceObject();showSourceObjectsStep();' style="float: right;">Back to Source Objects</a><br><br>
+    <a href='javascript:clearSourceObject();showSourceObjectsStep();'>Back to Source Objects</a><br><br>
     <div id='submit_job_results'>
     </div>    
 </div>
@@ -133,7 +133,7 @@ set_exception_handler('handleAllExceptionsNoHeaders');
 <script>
     document.getElementById("querySubmit").setAttribute('onclick', 'return sourceBlocker();');
     document.getElementById("mapSubmit").setAttribute('onclick', 'targetBlocker()');
-    var compOper_array = <?php echo json_encode($ops); ?>;
+    var compOper_array = <?= json_encode($ops); ?>;
     var field_type_array = [];
     //default first filter on page
     addFilterRow(0,null,null,null);

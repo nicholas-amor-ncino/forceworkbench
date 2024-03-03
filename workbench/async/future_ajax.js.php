@@ -1,12 +1,12 @@
 <?php function futureAjax($asyncId) { ?>
 
-<div id="async-container-<?php echo $asyncId ?>"></div>
+<div id="async-container-<?= $asyncId ?>"></div>
 
-<script type='text/javascript' src='<?php echo getPathToStaticResource('/script/getElementsByClassName.js') ?>'></script>
+<script type='text/javascript' src='<?= getPathToStaticResource('/script/getElementsByClassName.js') ?>'></script>
 
 <script type="text/javascript">
     <!--
-    var WorkbenchFuture<?php echo $asyncId ?> = new function() {
+    var WorkbenchFuture<?= $asyncId ?> = new function() {
         // Get the HTTP Object
         this.getHTTPObject = function() {
             if (window.ActiveXObject) {
@@ -21,8 +21,8 @@
 
         this.getFuture = function() {
             this.disableWhileAsyncLoading(true);
-            var container = document.getElementById('async-container-<?php echo $asyncId ?>');
-            container.innerHTML = "<img src='<?php echo getPathToStaticResource('/images/wait16trans.gif') ?>'/>&nbsp; Loading...";
+            var container = document.getElementById('async-container-<?= $asyncId ?>');
+            container.innerHTML = "<img src='<?= getPathToStaticResource('/images/wait16trans.gif') ?>'/>&nbsp; Loading...";
             this.getFutureInternal(container, 0);
         };
 
@@ -30,7 +30,7 @@
             var ajax = this.getHTTPObject();
             if (ajax != null) {
                 var longPollTimeout = 10;
-                ajax.open("GET", "future_get.php?async_id=<?php echo $asyncId ?>&wait_for=" + longPollTimeout, true);
+                ajax.open("GET", "future_get.php?async_id=<?= $asyncId ?>&wait_for=" + longPollTimeout, true);
                 ajax.send(null);
                 ajax.onreadystatechange = function () {
                     if (ajax.readyState == 4) {
@@ -43,10 +43,10 @@
                         } else if (ajax.status == 202) {
                             // 202 means that long poll ended, but still waiting for result
                             container.innerHTML += ".";
-                            if (totalTimeWaiting > (<?php echo WorkbenchConfig::get()->value('asyncTimeoutSeconds'); ?>)) {
+                            if (totalTimeWaiting > (<?= WorkbenchConfig::get()->value('asyncTimeoutSeconds'); ?>)) {
                                 container.innerHTML = "<span style='color:red;'>Timed out waiting for asynchronous job to complete</span>";
                             } else {
-                                WorkbenchFuture<?php echo $asyncId ?>.getFutureInternal(container, totalTimeWaiting + longPollTimeout);
+                                WorkbenchFuture<?= $asyncId ?>.getFutureInternal(container, totalTimeWaiting + longPollTimeout);
                                 return;
                             }
                         } else if (ajax.status == 404) {
@@ -56,7 +56,7 @@
                         } else {
                             container.innerHTML = "<span style='color:red;'>Unknown Asynchronous State</span>";
                         }
-                        WorkbenchFuture<?php echo $asyncId ?>.disableWhileAsyncLoading(false);
+                        WorkbenchFuture<?= $asyncId ?>.disableWhileAsyncLoading(false);
                     }
                 };
             } else {
@@ -73,7 +73,7 @@
         };
     };
 
-    WorkbenchFuture<?php echo $asyncId ?>.getFuture();
+    WorkbenchFuture<?= $asyncId ?>.getFuture();
     //-->
 </script>
 

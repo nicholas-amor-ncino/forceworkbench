@@ -1,6 +1,6 @@
 <?php
 
-$MIGRATION_MESSAGE = "Try the <a href=\"https://github.com/forcedotcom/postman-salesforce-apis\">Salesforce APIs for Postman</a>.";
+// $MIGRATION_MESSAGE = "Try the <a href=\"https://github.com/forcedotcom/postman-salesforce-apis\">Salesforce APIs for Postman</a>.";
 
 require_once 'restclient/RestClient.php';
 require_once 'controllers/RestExplorerController.php';
@@ -23,14 +23,14 @@ require_once 'header.php';
 ?>
 <link
 	rel="stylesheet" type="text/css"
-	href="<?php echo getPathToStaticResource('/style/restexplorer.css'); ?>" />
+	href="<?= getPathToStaticResource('/style/restexplorer.css'); ?>" />
 <script
 	type="text/javascript"
-	src="<?php echo getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
+	src="<?= getPathToStaticResource('/script/restexplorer.js'); ?>"></script>
 
 <script
 	type="text/javascript"
-	src="<?php echo getPathToStaticResource('/script/simpletreemenu.js'); ?>">
+	src="<?= getPathToStaticResource('/script/simpletreemenu.js'); ?>">
     /***********************************************
     * Dynamic Countdown script- © Dynamic Drive (http://www.dynamicdrive.com)
     * This notice MUST stay intact for legal use
@@ -44,63 +44,79 @@ if ($c->errors != null) {
 }
 ?>
 
-<form action="" method="POST">
-    <?php print getCsrfFormTag(); ?>
-    <p><em>Choose an HTTP method to perform on the REST API service URI
-    below:</em>
-    
+<form action="" method="post">
+    <?= getCsrfFormTag() ?>
+    <p><em>Choose an HTTP method to perform on the REST API service URI below:</em></p>
     <p>
-    <?php 
-    foreach (RestApiClient::getMethods() as $method) {
-        echo "<label><input type='radio' name='requestMethod' value='$method'" . 
-                ($c->requestMethod == $method ? "checked='checked'" : "")  . 
-                " onclick='toggleRequestBodyDisplay(this, " . (in_array($method, RestApiClient::getMethodsWithBodies()) ? 'true' : 'false') .
-                ");'/> $method </label>&nbsp;";
-    }
-    ?>
-	&nbsp;
-    <input  id="headersButton"
-	        type="button"
-			value="Headers"
-			onclick="toggleRequestHeaders();"/>
-    &nbsp;
-	<input  id="resetButton"
-	        type="button"
-			value="Reset"
-			onclick="resetUrl('<?php print WorkbenchContext::get()->getApiVersion(); ?>');"/>
-    &nbsp;
-	<input  id="upButton"
-	        type="button" 
-			value="Up"
-			onclick="upUrl();"/>
-    &nbsp;
-    <span id='waitingIndicator'>
-        <img src='<?php print getPathToStaticResource('/images/wait16trans.gif'); ?>'/> Processing...
-    </span>
+
+    <div class="field is-grouped">
+        <div class="control">
+            <div class="select">
+                <select name="requestMethod">
+                <?php 
+                foreach (RestApiClient::getMethods() as $method) {
+                    ?>
+                    <option
+                        value="<?= $method ?>"
+                        <?= $c->requestMethod == $method ? "selected='selected'" : "" ?>
+                        onclick="toggleRequestBodyDisplay(this, <?= in_array($method, RestApiClient::getMethodsWithBodies()) ? 'true' : 'false' ?>);" />
+                        <?= $method ?>
+                    </option>
+                    <?php
+                }
+                ?>
+                </select>
+            </div>
+        </div>
+    
+        <div class="control">
+            <input id="headersButton" type="button" class="button" value="Headers" onclick="toggleRequestHeaders();" />
+        </div>
+    
+        <div class="control">
+            <input id="resetButton" type="button" class="button" value="Reset" onclick="resetUrl('<?= WorkbenchContext::get()->getApiVersion(); ?>');" />
+        </div>
+        
+        <div class="control">
+            <input id="upButton" type="button" class="button" value="Up" onclick="upUrl();"/>
+        </div>
+
+        <div class="control">
+            <span id='waitingIndicator' style="display:none">
+                <img src='<?= getPathToStaticResource('/images/wait16trans.gif'); ?>'/> Processing...
+            </span>
+        </div>
+    </div>
+    
     </p>
 
-    <input id="urlInput" 
-           name="url" value="<?php echo htmlspecialchars($c->url); ?>"
-    	   style="width: 35em; height: 1.2em; font-size: 18px; font-weight: bold;"
-    	   onKeyPress="if (checkEnter(event)) {document.getElementById('execBtn').click(); return false;}" />
-    &nbsp; 
-    <input id="execBtn" name="doExecute" type="submit" value="Execute" class="disableWhileAsyncLoading" style="font-size: 18px;"/>
+    <div class="field">
+        <label class="label" for="url">URL</label>
+        <div class="control">
+            <input id="urlInput" name="url" class="input"
+                value="<?= htmlspecialchars($c->url); ?>"
+                onKeyPress="if (checkEnter(event)) {document.getElementById('execBtn').click(); return false;}" />
+        </div>
+    </div>
+    <div class="field">
+        <div class="control">
+            <input id="execBtn" name="doExecute" type="submit" class="button is-primary disableWhileAsyncLoading" value="Execute" />
+        </div>
+    </div>
 
     <div id="requestHeaderContainer" style="display: none;">
-        <p>
-            <strong>Request Headers</strong>
-        </p>
-        <textarea id="requestHeaders" name="requestHeaders" style="width: 100%; height: 4em; font-family: courier, monotype;"><?php echo htmlspecialchars($c->requestHeaders); ?></textarea>
+        <p><strong>Request Headers</strong></p>
+        <textarea id="requestHeaders" class="textarea" name="requestHeaders" style="width: 100%; height: 4em; font-family: monospace;"><?= htmlspecialchars($c->requestHeaders); ?></textarea>
         <a id="requestHeadersDefaulter" class="miniLink pseudoLink" style="float: right;"
-           onClick="document.getElementById('requestHeaders').value='<?php echo str_replace("\n", "\\n", $c->getDefaultRequestHeaders()); ?>';">Restore Default Headers</a>
+           onClick="document.getElementById('requestHeaders').value='<?= str_replace("\n", "\\n", $c->getDefaultRequestHeaders()); ?>';">Restore Default Headers</a>
         <br/>
     </div>
 
-    <div id="requestBodyContainer" style="display: <?php echo in_array($c->requestMethod, RestApiClient::getMethodsWithBodies()) ? 'inline' : 'none';?>;">
+    <div id="requestBodyContainer" style="display: <?= in_array($c->requestMethod, RestApiClient::getMethodsWithBodies()) ? 'inline' : 'none';?>;">
         <p>
             <strong>Request Body</strong>
         </p>
-        <textarea name="requestBody" style="width: 100%; height: 10em; font-family: courier, monotype;"><?php echo htmlspecialchars($c->requestBody); ?></textarea>
+        <textarea class="textarea" name="requestBody" style="width: 100%; height: 10em; font-family: courier, monospace;"><?= htmlspecialchars($c->requestBody); ?></textarea>
         <br/>
     </div>
 </form>
@@ -126,7 +142,7 @@ if (isset($result)) {
             document.getElementById('waitingIndicator').style.display = 'inline';
         }
 
-        if (<?php echo !hasRedis() ?>) {
+        if (<?= !hasRedis() ?>) {
             bindEvent(document.getElementById('execBtn'), 'click', showWaitingIndicator);
 
             var linkables = document.getElementById('restExplorerResultsContainer').getElementsByClassName('RestLinkable');

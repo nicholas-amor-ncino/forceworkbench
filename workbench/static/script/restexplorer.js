@@ -110,7 +110,7 @@ function convert(jsonData) {
 	responseList.className = 'treeview';
 	responseListContainer.appendChild(buildList(jsonData, responseList));
 	ddtreemenu.createTree('responseList', false);
-	ddtreemenu.flatten('responseList', 'contract');
+	ddtreemenu.flatten('responseList', 'expand');
 
     var links = document.getElementsByTagName("a");
     for (var i in links) {

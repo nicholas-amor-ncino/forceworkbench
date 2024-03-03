@@ -308,7 +308,7 @@ function handleAllExceptionsInternal($e, $showHeadersFooters) {
         }
         if (basename($_SERVER['PHP_SELF']) !== "logout.php") {
             if (!headers_sent()) {
-                header("Location: logout.php?invalidateSession=1&message=" . urlencode($e->getMessage()));
+                header("Location: login.php?invalidateSession=1&message=" . urlencode($e->getMessage()));
             } else {
                 $_REQUEST['invalidateSession'] = 1;
                 $_REQUEST['message'] = $e->getMessage();
@@ -558,7 +558,7 @@ function printObjectSelection($defaultObject=false, $nameId='default_object', $w
 
     $describeGlobalResults = describeGlobal($filter1, $filter2);
 
-    print "<select id='$nameId' name='$nameId' style='width: " . $width. "em;' $extras>\n";
+    print "<select id=\"$nameId\" name=\"$nameId\" $extras>\n";
 
     print "<option value=''></option>";
 

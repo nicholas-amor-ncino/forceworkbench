@@ -108,7 +108,7 @@ config.Sticky = false
 config.TextAlign = 'left' // 'left', 'right' or 'justify'
 config.Title = '' // Default title text applied to all tips (no default title: empty string '')
 config.TitleAlign = 'left' // 'left' or 'right' - text alignment inside the title bar
-config.TitleBgColor = '' // If empty string '', BorderColor will be used
+config.TitleBgColor = '#30303090' // If empty string '', BorderColor will be used
 config.TitleFontColor = '#ffffff' // Color of title text - if '', BgColor (of tooltip body) will be used
 config.TitleFontFace = '' // If '' use FontFace (boldified)
 config.TitleFontSize = '' // If '' use FontSize
@@ -569,8 +569,8 @@ function tt_MkTipSubDivs() {
                             + tt_aV[CLOSEBTNTEXT] + '</span></td>')
                             : '') + '</tr></tbody></table></div>')
                     : '')
-            + '<div id="WzBoDy" style="position:relative;z-index:0;">'
-            + '<table' + sTbTrTd + 'id="WzBoDyI" style="' + sCss + '">'
+            + '<div id="WzBoDy" class="popup" style="position:relative;z-index:0;">'
+            + '<table' + sTbTrTd + 'id="WzBoDyI" class="popup__table" style="' + sCss + '">'
             + tt_sContent + '</td></tr></tbody></table></div>' + (tt_aV[SHADOW] ? ('<div id="WzTtShDwR" style="position:absolute;overflow:hidden;"></div>'
             + '<div id="WzTtShDwB" style="position:relative;overflow:hidden;"></div>')
             : ''));

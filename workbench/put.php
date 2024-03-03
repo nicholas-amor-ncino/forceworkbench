@@ -178,6 +178,7 @@ function put($action) {
                  "</select></td></tr>";
             
             print "</table>";
+            print "</div>";
             
             displayBulkApiOptions($confirmAction, true);
     
@@ -189,9 +190,15 @@ function put($action) {
         }
         include_once 'footer.php';
     } else {
-        unset($_SESSION['field_map'],$_SESSION['csv_array'],$_SESSION['_ext_id'],$_SESSION['file_tmp_name'],$_SESSION['tempZipFile']);
-        displayUploadFileWithObjectSelectionForm($action);
+        put_upload($action);
     }
+}
+
+
+
+function put_upload($action) {
+    unset($_SESSION['field_map'],$_SESSION['csv_array'],$_SESSION['_ext_id'],$_SESSION['file_tmp_name'],$_SESSION['tempZipFile']);
+    displayUploadFileWithObjectSelectionForm($action);
 }
 
 
@@ -322,7 +329,7 @@ function convertCsvFileToArray($file) {
  * @param $csvArray
  */
 function displayCsvArray($csvArray) {
-    print "<table class='dataTable'>\n";
+    print "<table class=\"table dataTable\">\n";
     print "<tr><th>&nbsp;</th>";
     for ($col=0; $col < count($csvArray[0]); $col++) {
         print "<th>";
@@ -450,7 +457,8 @@ function setFieldMappings($action,$csvArray) {
 
     if ($action == 'upsert') {
         print "<p class='instructions'>Choose the Salesforce field to use as the External Id. Be sure to also map this field below:</p>\n";
-        print "<table class='fieldMapping'><tr>\n";
+        print "<div class=\"table-container\">\n";
+        print "<table class=\"table fieldMapping\"><tr>\n";
         print "<td style='color: red;'>External Id</td>";
         print "<td><select name='_ext_id' style='width: 100%;'>\n";
         foreach ($describeSObjectResult->fields as $fields => $field) {
@@ -461,6 +469,7 @@ function setFieldMappings($action,$csvArray) {
             }
         }
         print "</select></td></tr></table>\n";
+        print "</div>\n";
 
 
     } //end if upsert
@@ -470,13 +479,15 @@ function setFieldMappings($action,$csvArray) {
         print "<h3 style='margin:0px;'><a href='describe.php?id=$id' style='text-decoration:none; color:inherit;'>" . $objectType . "</a></h3>";
         print "<h1 style='margin-top:0px;'>" . (isset($currRecord->fields->Name) ? htmlspecialchars($currRecord->fields->Name) : $currRecord->fields->Id). "</h1>";
 
+        print "<div class=\"buttons has-addons\">";
         foreach ($dmlActions as $dmlAction => $enabled) {
-            print "<input type=\"button\" onclick=\"window.location.href='$dmlAction.php?sourceType=singleRecord&id=$id'\" value=\"" . ucfirst($dmlAction) . "\" " . (!$enabled ? "disabled=disabled" : "") . "/>&nbsp;&nbsp;";
+            print "<a href=\"" . $dmlAction . ".php?sourceType=singleRecord&id=" . $id . "\" class=\"button\"" . (!$enabled ? "disabled=disabled" : "") . ">" . ucfirst($dmlAction) ."</a>";
         }
         if (WorkbenchConfig::get()->value('linkIdToUi')) {
             $uiViewable = isset($describeSObjectResult->urlDetail) || in_array($objectType, array("Dashboard", "Report", "Division", "BusinessHours", "BrandTemplate"));
-            print "<input type=\"button\" onclick=\"window.open('" . getJumpToSfdcUrlPrefix() . "$id')\" value=\"View in Salesforce\" " . ($uiViewable ? "" : "disabled=disabled") ."/>&nbsp;&nbsp;";
+            print "<a href=\"" . getJumpToSfdcUrlPrefix() . $id . "\" target=\"_blank\" class=\"button\"" . ($uiViewable ? "" : " disabled=disabled") ."/>View in Salesforce</a>";
         }
+        print "</div>";
         print "<p/>";
     } else {
         if ($csvArray) {
@@ -490,7 +501,7 @@ function setFieldMappings($action,$csvArray) {
         print "<p class='instructions'>$instructions</p>\n";
     }
 
-    print "<table class='fieldMapping'>\n";
+    print "<table class='table fieldMapping'>\n";
     print "<tr><th>Field</th>";
 
     if ($csvArray) {
@@ -1179,7 +1190,7 @@ function displayIdOnlyPutResults($results,$apiCall,$csvArray,$idArray) {
 
     print "<br/><form action='downloadResultsWithData.php' method='GET'><input type='hidden' name='action' value='$apiCall'/><input type='submit' value='Download Full Results'/></form>";
 
-    print "<br/>\n<table class='dataTable'>\n";
+    print "<br/>\n<div class=\"table-container\"><table class=\"table dataTable\">\n";
     print "<th>&nbsp;</th> <th style='width: 30%'>Salesforce Id</th> <th style='width: 30%'>Result</th> <th style='width: 35%'>Status</th>\n";
     print "<p>$resultsTable</p>";
 }

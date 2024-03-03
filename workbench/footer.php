@@ -3,11 +3,34 @@ include_once 'shared.php';
 ?>
 </div>
 
-<div id='disclaimer'><br />
+<div id="disclaimer" class="container"><br />
+
+
+<table width='100%' border='0'><tr>
+
+<?php
+if (isLoggedIn() && termsOk()) {
+    $userInfo = WorkbenchContext::get()->getUserInfo();
+    $infoTips = array("Username: " . $userInfo->userName,
+                      "Instance: " . WorkbenchContext::get()->getHost(),
+                      "Org Id:&nbsp;&nbsp;" . substr($userInfo->organizationId, 0, 15),
+                      "User Id:&nbsp;" . substr($userInfo->userId, 0, 15));
+    ?>
+    <td id='myUserInfo'>
+        <a href='sessionInfo.php' onmouseover="Tip('<?= implode('<br/>', $infoTips) ?>')">
+            <?= htmlspecialchars($userInfo->userFullName . " at " . $userInfo->organizationName) ?> on API <?= WorkbenchContext::get()->getApiVersion() ?>
+        </a>
+    </td>
+    <?php
+}
+?>
+</tr></table>
 
 <?php
 if (WorkbenchConfig::get()->value("checkSSL") && !usingSslEndToEnd()) {
-    print "<div style='font-size: 8pt; color: orange;'>WARNING: Unsecure connection detected</div>";
+    ?>
+    <div style="font-size: 8pt; color: orange;">WARNING: Unsecure connection detected</div>
+    <?php
 }
 
 if (WorkbenchContext::isEstablished() && WorkbenchContext::get()->isRequestStartTimeSet() && WorkbenchConfig::get()->value("displayRequestTime")) {
@@ -21,7 +44,7 @@ print "Workbench " . ($GLOBALS["WORKBENCH_VERSION"] != "trunk" ? $GLOBALS["WORKB
 
 </body>
 
-<script type="text/javascript" src="<?php echo getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
+<script type="text/javascript" src="<?= getPathToStaticResource('/script/wz_tooltip.js'); ?>"></script>
 
 <?php
 if (isset($_REQUEST["footerScripts"])) {

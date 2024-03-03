@@ -193,7 +193,7 @@ class QueryFutureTask extends FutureTask {
             return;
         }
 
-        $table =  "<table id='query_results_matrix' border='1' class='" . getTableClass() . "'>";
+        $table =  "<table id=\"query_results_matrix\" border=\"1\" class=\"table " . getTableClass() . "\">";
 
         $hw = false;
         foreach ($allRowNames as $rowName) {
@@ -229,7 +229,7 @@ class QueryFutureTask extends FutureTask {
     }
 
     function createQueryResultTable($records, $rowNum) {
-        $table = "<table id='query_results' class='" . getTableClass() . "'>\n";
+        $table = "<div class=\"table-container\"><table id=\"query_results\" class=\"table " . getTableClass() . "\">\n";
 
         //call shared recusive function above for header printing
         $table .= "<tr><th>&nbsp;</th><th>";
@@ -272,7 +272,7 @@ class QueryFutureTask extends FutureTask {
             $table .= "</td></tr>\n";
         }
 
-        $table .= "</table>";
+        $table .= "</table></div>";
 
         return $table;
     }
@@ -296,7 +296,7 @@ class QueryFutureTask extends FutureTask {
             addFooterScript("<script type='text/javascript' src='" . getPathToStaticResource('/script/sortable.js') . "></script>");
         }
 
-        print "<a name='qr'></a><div style='clear: both;'><br/><h2>Query Results</h2>\n";
+        print "<a name='qr'></a><div><br/><h2>Query Results</h2>\n";
 
         if (isset($this->queryLocator)) {
             preg_match("/-(\d+)/", $this->queryLocator, $lastRecord);
@@ -326,7 +326,7 @@ class QueryFutureTask extends FutureTask {
             print "<p><input type='submit' name='queryMore' id='queryMoreButtonBottom' value='More...' /></p>";
         }
 
-        print    "</form></div>\n";
+        print "</form></div>\n";
     }
 
     function exportQueryAsCsv($records,$queryAction) {

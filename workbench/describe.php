@@ -20,15 +20,15 @@ if (isset($_REQUEST['keyPrefix']) || isset($_REQUEST['id'])) {
 
 <p class='instructions'>Choose an object to describe:</p>
 
-<form name='describeForm' method='POST' action='describe.php'>
+<form name='describeForm' method='GET' action='describe.php'>
     <?php
-    print getCsrfFormTag();
-    printObjectSelection(WorkbenchContext::get()->getDefaultObject(), 'default_object', 30,
+    // print getCsrfFormTag();
+    printObjectSelection(WorkbenchContext::get()->getDefaultObject(), 'default_object', 40,
         "onChange=\"document.getElementById('loadingMessage').style.visibility='visible'; document.describeForm.submit();\"");
     ?>
 
     <span id='loadingMessage' style='visibility:hidden; color:#888;'>
-        &nbsp;&nbsp;<img src='<?php print getPathToStaticResource('/images/wait16trans.gif'); ?>' align='absmiddle'/> Loading...
+        &nbsp;&nbsp;<img src='<?= getPathToStaticResource('/images/wait16trans.gif'); ?>' align='absmiddle'/> Loading...
     </span>
 
 </form>

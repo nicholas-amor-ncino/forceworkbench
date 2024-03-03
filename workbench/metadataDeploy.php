@@ -65,8 +65,8 @@ else if (isset($_POST['stageForDeployment'])) {
 <p class='instructions'>Confirm the following deployment options:</p>
 <form id='deployForm' name='deployForm' method='POST'
     action=''>
-    <?php print getCsrfFormTag(); ?>
-    <input type='hidden' name='deployFileTmpName' value='<?php print $deployFileTmpName; ?>' />
+    <?= getCsrfFormTag(); ?>
+    <input type='hidden' name='deployFileTmpName' value='<?= $deployFileTmpName; ?>' />
 <p />
     <?php
         $tree = new ExpandableTree("deployOptionsTree", $_SESSION[$deployFileTmpName . "_OPTIONS"]);
@@ -95,12 +95,12 @@ options:</p>
     action=''
     enctype='multipart/form-data'><input type='file' name='deployFile'
     size='44' />
-    <?php print getCsrfFormTag(); ?>
-    <input type='hidden' name='MAX_FILE_SIZE' value='<?php print WorkbenchConfig::get()->value("maxFileSize"); ?>' />
+    <?= getCsrfFormTag(); ?>
+    <input type='hidden' name='MAX_FILE_SIZE' value='<?= WorkbenchConfig::get()->value("maxFileSize"); ?>' />
     <img onmouseover="Tip('Choose a ZIP file containing a project manifest, a file named package.xml, and a set of directories that contain the components to deploy.  See Salesforce.com Metadata API Developers guide more information about working with ZIP files for deployment.')"
-     align='absmiddle' src='<?php echo getPathToStaticResource('/images/help16.png'); ?>' />
+     align='absmiddle' src='<?= getPathToStaticResource('/images/help16.png'); ?>' />
 <p />
-    <?php printDeployOptions(defaultDeployOptions()); ?>
+    <?=DeployOptions(defaultDeployOptions()); ?>
 <p />
 <input type='submit' name='stageForDeployment' value='Next' /></form>
     <?php

@@ -1,18 +1,19 @@
 @charset "ISO-8859-1";
 
 * {
-  font-family: Verdana, Arial, Kalimati, Utkal, FreeSans, sans-serif;
-  font-size: 12px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 14px;
 }
 
 pre,
 pre a {
-  font-family: monospace;
-  font-size: 12px;
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 14px;
 }
 
 body {
-  background-color: white;
+  background-color: #1b1b1b;
+  color: #fff;
   text-align: center;
 }
 
@@ -23,7 +24,7 @@ body {
 }
 
 a {
-  color: black;
+  color: #e2e2e2;
 }
 
 #navMenu {
@@ -229,7 +230,7 @@ table.fieldMapping th {
 .displayWarning,
 .displayInfo {
   text-align: center;
-  font-size: 12px;
+  font-size: 14px;
   padding: 10px;
   border: solid thin;
   border-radius: 10px;

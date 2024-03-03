@@ -96,7 +96,7 @@ class ExpandableTree {
                 if (is_bool($nodeValue)) {
                     $nodeValue = $nodeValue == 1 ? "<span class='trueColor'>true</span>" : "<span class='falseColor'>false</span>";
                 } else {
-                    $nodeValue = $escape ? htmlspecialchars($nodeValue) : $nodeValue;
+                    // $nodeValue = $escape ? htmlspecialchars($nodeValue) : $nodeValue;
                     $nodeValue = $this->containsDates ? localizeDateTimes($nodeValue) : $nodeValue;
                     $nodeValue = $this->containsIds ? addLinksToIds($nodeValue) : $nodeValue;
                 }
@@ -144,6 +144,8 @@ class ExpandableTree {
                 } else {
                     if ($groupTopLevelScalarsIn != null) {
                         $processed[$groupTopLevelScalarsIn][$rawKey] = $rawValue;
+                    } else if($rawKey == 'childSObject' || $rawKey == 'referenceTo') {
+                        $processed[$rawKey] = '<a href="/describe.php?default_object=' . $rawValue . '">' . $rawValue . '</a>';
                     } else {
                         $processed[$rawKey] = $rawValue;
                     }

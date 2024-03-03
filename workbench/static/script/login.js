@@ -1,9 +1,9 @@
-var WorkbenchLogin = new function() {
+const WorkbenchLogin = new function() {
 
-    var form = document.getElementById('login_form');
+    const form = document.getElementById('login_form');
 
     this.initializeForm = function(loginType) {
-        var loginTypeElem = form['loginType_' + loginType];
+        const loginTypeElem = form['loginType_' + loginType];
         if (loginTypeElem === undefined) {
             alert("Unknown login type '" + loginType + "'. Check configuration!");
             return;
@@ -17,8 +17,8 @@ var WorkbenchLogin = new function() {
         }
 
         // add listeners to the loginType radio buttons
-        var loginTypes = document.getElementsByName("loginType");
-        for (var i = 0; i < loginTypes.length; i++) {
+        const loginTypes = document.getElementsByName("loginType");
+        for (let i = 0; i < loginTypes.length; i++) {
             bindEvent(loginTypes[i], "click", setFormForLoginType);
         }
 
@@ -42,8 +42,8 @@ var WorkbenchLogin = new function() {
     };
 
     function setFormForLoginType() {
-        var loginTypes = document.getElementsByName("loginType");
-        for (var i = 0; i < loginTypes.length; i++) {
+        const loginTypes = document.getElementsByName("loginType");
+        for (let i = 0; i < loginTypes.length; i++) {
             if (loginTypes[i].checked) {
                 switchLoginTypeTo(loginTypes[i]);
                 break;
@@ -54,8 +54,8 @@ var WorkbenchLogin = new function() {
     function switchLoginTypeTo(typeElem) {
         typeElem.checked = true;
 
-        var divs = document.getElementsByTagName("div");
-        for (var i = 0; i < divs.length; i++) {
+        const divs = document.getElementsByTagName("div");
+        for (let i = 0; i < divs.length; i++) {
             if (divs[i].className.indexOf("loginType") >= 0) {
                 if (divs[i].className.indexOf(typeElem.id) >= 0) {
                     divs[i].style.display = "block";
@@ -89,8 +89,8 @@ var WorkbenchLogin = new function() {
     }
 
     function checkCaps(event) {
-        var key = 0;
-        var shifted = false;
+        const key = 0;
+        const shifted = false;
 
         // IE
         if ( document.all ) {
@@ -102,10 +102,10 @@ var WorkbenchLogin = new function() {
 
         shifted = event.shiftKey;
 
-        var pwcaps = document.getElementById('pwcaps');
+        const pwcaps = document.getElementById('pwcaps');
 
-        var upper = (key >= 65 && key <= 90);
-        var lower = (key >= 97 && key <= 122);
+        const upper = (key >= 65 && key <= 90);
+        const lower = (key >= 97 && key <= 122);
 
         if ( (upper && !shifted) || (lower && shifted) ) {
             pwcaps.style.visibility='visible';
@@ -131,12 +131,12 @@ var WorkbenchLogin = new function() {
     }
 
     function fuzzyServerUrlSelect() {
-        var sid = form.sid.value
-        var sidIndex = sid.indexOf('00D');
+        const sid = form.sid.value
+        const sidIndex = sid.indexOf('00D');
 
         if (sidIndex > -1) {
-            var serverId = sid.substring(sidIndex + 3, sidIndex + 5);
-            var inst = wbLoginConfig.serverIdMap[serverId];
+            const serverId = sid.substring(sidIndex + 3, sidIndex + 5);
+            const inst = wbLoginConfig.serverIdMap[serverId];
             if (inst != null) {
                 form.inst.value = inst;
                 buildServerUrl();

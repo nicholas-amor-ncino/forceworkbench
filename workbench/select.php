@@ -2,20 +2,19 @@
 require_once 'session.php';
 require_once 'shared.php';
 
-if (isset($_POST['actionJump']) && $_POST['actionJump'] != basename($_SERVER['PHP_SELF'])) {
-    header("Location: $_POST[actionJump]");
+if (isset($_GET['actionJump']) && $_GET['actionJump'] != basename($_SERVER['PHP_SELF'])) {
+    header("Location: $_GET[actionJump]");
     exit;
 }
 
 include_once 'header.php';
 
-if (isset($_POST['select'])) {
+if (isset($_GET['select'])) {
     displayError("Choose an object and an action to which to jump.");
 }
 ?>
 
-<form method='POST' action=''>
-    <?php print getCsrfFormTag(); ?>
+<form method="get" action="">
     <p class='instructions'>Select an action to perform:</p>
 
     <p>
@@ -34,7 +33,7 @@ if (isset($_POST['select'])) {
 
     <p>
         <label for="default_object"><strong>Object: &nbsp; </strong></label>
-        <?php printObjectSelection(WorkbenchContext::get()->getDefaultObject(), 'default_object'); ?>
+        <?=ObjectSelection(WorkbenchContext::get()->getDefaultObject(), 'default_object'); ?>
     </p>
     
     <input type='submit' name='select' value='Select'/>

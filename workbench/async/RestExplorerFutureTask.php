@@ -45,25 +45,28 @@ class RestExplorerFutureTask extends FutureTask {
             ?><p/><?php
         }
         ?>
-        <div style="float: left;">
+        <div class="result-set">
             <?php if (trim($this->c->instResponse) != "") { ?>
             <a href="javascript:ddtreemenu.flatten('responseList', 'expand')">Expand All</a> |
-            <a href="javascript:ddtreemenu.flatten('responseList', 'contact')">Collapse All</a> |
+            <a href="javascript:ddtreemenu.flatten('responseList', 'contract')">Collapse All</a> |
             <a id="codeViewPortToggler" href="javascript:toggleCodeViewPort();">Show Raw Response</a>
 
+            <?php
+            if (isset($this->c->rawResponse)) {
+                ?>
+                <div id="codeViewPortContainer" style="display: <?= trim($this->c->instResponse) != "" ? "none;" : "block" ?>;">
+                    <strong>Raw Response</strong>
+                    <p id="codeViewPort"><?= htmlspecialchars($this->c->rawResponse->header); ?><br /><?= htmlspecialchars($this->c->rawResponse->body); ?></p>
+                </div>
+                <?php
+            }
+            ?>
             <div id="responseListContainer" class="results"></div>
 
-            <script type='text/javascript' class='evalable'>convert(<?php echo $this->c->instResponse ?>);</script>
+            <script type='text/javascript' class='evalable'>convert(<?= $this->c->instResponse ?>);</script>
             <?php } ?>
         </div>
-
-        <?php if (isset($this->c->rawResponse)) { ?>
-        <div id="codeViewPortContainer" style="display: <?php echo trim($this->c->instResponse) != "" ? "none; right:10px;" : "block"  ?>;">
-            <strong>Raw Response</strong>
-            <p id="codeViewPort"><?php echo htmlspecialchars($this->c->rawResponse->header); ?><br /><?php echo htmlspecialchars($this->c->rawResponse->body); ?></p>
-        </div>
         <?php
-        }
         $result = ob_get_contents();
         ob_end_clean();
 
